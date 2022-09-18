@@ -7,16 +7,28 @@ package com.mycompany.siekeusekolah;
 
 import com.mycompany.siekeusekolah.form.DialogLogin;
 import com.mycompany.siekeusekolah.form.FormUtama;
+import java.sql.SQLException;
+
 /**
  *
  * @author rico
  */
 public class SikeuSekolah {
+    
+    public static FormUtama tampilanUtama;
+    public static DialogLogin tampilanLogin;
+    
     public static void main(String[] args) {
         System.out.println("Menjalankan aplikasi SIKEU - Sekolah");
+        Koneksi cek = new Koneksi();
+        try {
+            cek.konekDB.close(); //tutup koneksi
+        } catch (SQLException ex) {
+            
+        }
         
-        FormUtama tampilanUtama = new FormUtama();
-        DialogLogin tampilanLogin = new DialogLogin(tampilanUtama, true);
+        tampilanUtama = new FormUtama();
+        tampilanLogin = new DialogLogin(tampilanUtama, true);
         tampilanLogin.setVisible(true);
     }
 }
