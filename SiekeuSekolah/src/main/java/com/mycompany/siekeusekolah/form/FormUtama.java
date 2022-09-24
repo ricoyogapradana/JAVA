@@ -5,17 +5,25 @@
  */
 package com.mycompany.siekeusekolah.form;
 
+import javax.swing.JFrame;
+
 /**
  *
  * @author rico
  */
 public class FormUtama extends javax.swing.JFrame {
 
+    FormAkun formAkun = new FormAkun();
     /**
      * Creates new form FormUtama
      */
     public FormUtama() {
         initComponents();
+        
+        //Fullscreen
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
+        //Menambah
+        desktopPane.add(formAkun);
     }
 
     /**
@@ -34,8 +42,8 @@ public class FormUtama extends javax.swing.JFrame {
         saveMenuItem = new javax.swing.JMenuItem();
         saveAsMenuItem = new javax.swing.JMenuItem();
         exitMenuItem = new javax.swing.JMenuItem();
-        editMenu = new javax.swing.JMenu();
-        cutMenuItem = new javax.swing.JMenuItem();
+        masterMenu = new javax.swing.JMenu();
+        AkunMenuItem = new javax.swing.JMenuItem();
         copyMenuItem = new javax.swing.JMenuItem();
         pasteMenuItem = new javax.swing.JMenuItem();
         deleteMenuItem = new javax.swing.JMenuItem();
@@ -72,26 +80,31 @@ public class FormUtama extends javax.swing.JFrame {
 
         menuBar.add(fileMenu);
 
-        editMenu.setMnemonic('e');
-        editMenu.setText("Edit");
+        masterMenu.setMnemonic('e');
+        masterMenu.setText("Master");
 
-        cutMenuItem.setMnemonic('t');
-        cutMenuItem.setText("Cut");
-        editMenu.add(cutMenuItem);
+        AkunMenuItem.setMnemonic('t');
+        AkunMenuItem.setText("Akun");
+        AkunMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AkunMenuItemActionPerformed(evt);
+            }
+        });
+        masterMenu.add(AkunMenuItem);
 
         copyMenuItem.setMnemonic('y');
         copyMenuItem.setText("Copy");
-        editMenu.add(copyMenuItem);
+        masterMenu.add(copyMenuItem);
 
         pasteMenuItem.setMnemonic('p');
         pasteMenuItem.setText("Paste");
-        editMenu.add(pasteMenuItem);
+        masterMenu.add(pasteMenuItem);
 
         deleteMenuItem.setMnemonic('d');
         deleteMenuItem.setText("Delete");
-        editMenu.add(deleteMenuItem);
+        masterMenu.add(deleteMenuItem);
 
-        menuBar.add(editMenu);
+        menuBar.add(masterMenu);
 
         helpMenu.setMnemonic('h');
         helpMenu.setText("Help");
@@ -125,6 +138,11 @@ public class FormUtama extends javax.swing.JFrame {
     private void exitMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitMenuItemActionPerformed
         System.exit(0);
     }//GEN-LAST:event_exitMenuItemActionPerformed
+
+    private void AkunMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AkunMenuItemActionPerformed
+        // TODO add your handling code here:
+        formAkun.setVisible(true);
+    }//GEN-LAST:event_AkunMenuItemActionPerformed
 
     /**
      * @param args the command line arguments
@@ -162,16 +180,16 @@ public class FormUtama extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem AkunMenuItem;
     private javax.swing.JMenuItem aboutMenuItem;
     private javax.swing.JMenuItem contentMenuItem;
     private javax.swing.JMenuItem copyMenuItem;
-    private javax.swing.JMenuItem cutMenuItem;
     private javax.swing.JMenuItem deleteMenuItem;
     private javax.swing.JDesktopPane desktopPane;
-    private javax.swing.JMenu editMenu;
     private javax.swing.JMenuItem exitMenuItem;
     private javax.swing.JMenu fileMenu;
     private javax.swing.JMenu helpMenu;
+    private javax.swing.JMenu masterMenu;
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JMenuItem openMenuItem;
     private javax.swing.JMenuItem pasteMenuItem;

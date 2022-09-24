@@ -32,7 +32,7 @@
           <Group type="102" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="jLabel1" max="32767" attributes="0"/>
+                  <Component id="jLabel1" pref="451" max="32767" attributes="0"/>
                   <Group type="102" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="jLabel2" alignment="0" min="-2" max="-2" attributes="0"/>
@@ -40,18 +40,13 @@
                       </Group>
                       <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="username" min="-2" pref="212" max="-2" attributes="0"/>
-                          <Component id="password" min="-2" pref="212" max="-2" attributes="0"/>
+                          <Component id="password" max="32767" attributes="0"/>
+                          <Component id="username" max="32767" attributes="0"/>
                       </Group>
-                      <EmptySpace min="0" pref="59" max="32767" attributes="0"/>
                   </Group>
+                  <Component id="Login" alignment="0" max="32767" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
-          </Group>
-          <Group type="102" alignment="1" attributes="0">
-              <EmptySpace max="32767" attributes="0"/>
-              <Component id="Login" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="174" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -66,13 +61,13 @@
                   <Component id="username" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="password" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
+                  <Component id="password" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace min="-2" pref="45" max="-2" attributes="0"/>
-              <Component id="Login" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="61" max="32767" attributes="0"/>
+              <EmptySpace pref="26" max="32767" attributes="0"/>
+              <Component id="Login" min="-2" pref="78" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -93,11 +88,6 @@
         <Property name="text" type="java.lang.String" value="USERNAME"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="password">
-      <Properties>
-        <Property name="name" type="java.lang.String" value="password" noResource="true"/>
-      </Properties>
-    </Component>
     <Component class="javax.swing.JTextField" name="username">
       <Properties>
         <Property name="name" type="java.lang.String" value="username" noResource="true"/>
@@ -108,11 +98,16 @@
     </Component>
     <Component class="javax.swing.JButton" name="Login">
       <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Abyssinica SIL" size="48" style="3"/>
+        </Property>
         <Property name="text" type="java.lang.String" value="Login"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="LoginActionPerformed"/>
       </Events>
+    </Component>
+    <Component class="javax.swing.JPasswordField" name="password">
     </Component>
   </SubComponents>
 </Form>
