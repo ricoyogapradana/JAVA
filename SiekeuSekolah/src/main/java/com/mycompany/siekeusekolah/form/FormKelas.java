@@ -17,7 +17,7 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author rico
  */
-public class FormAkun extends javax.swing.JInternalFrame {
+public class FormKelas extends javax.swing.JInternalFrame {
     Koneksi kon;
     ResultSet rs;
     String mode;
@@ -25,26 +25,27 @@ public class FormAkun extends javax.swing.JInternalFrame {
     /**
      * Creates new form FormAkun
      */
-    public FormAkun() {
+    public FormKelas() {
         initComponents();
         kon = new Koneksi(); //Buat Koneksi
         tampilData(""); //menampilkan Data
     }
     
     private void tampilData(String filter){
-        Object[] judulKolom = {"No","Kode","Nama Akun"};
+        Object[] judulKolom = {"No", "id","Kode Kelas","Nama Jurusan"};
         DefaultTableModel modelAkun = new DefaultTableModel(null,judulKolom);
         tableData.setModel(modelAkun);
 
         try{
-            String sql="select * from akun where kode like '%"+filter+"%' or nama_akun like '%"+filter+"%'";
+            String sql="select * from kelas where kode_kelas like '%"+filter+"%' or jurusan like '%"+filter+"%'";
             rs = kon.perintah.executeQuery(sql);
             int no = 0;
             while (rs.next()) {
                 no++;
-                String txtKode =rs.getString("kode");
-                String txtNama_akun =rs.getString("nama_akun");
-                String[] barisBaru = {Integer.toString(no), txtKode, txtNama_akun};
+                String txtId =rs.getString("id");
+                String txtKode_kelas =rs.getString("kode_kelas");
+                String txtNama_jurusan =rs.getString("jurusan");
+                String[] barisBaru = {Integer.toString(no), txtId, txtKode_kelas, txtNama_jurusan};
                 modelAkun.addRow(barisBaru);
             }
         }catch(Exception salahe){
@@ -64,9 +65,11 @@ public class FormAkun extends javax.swing.JInternalFrame {
         dialogForm = new javax.swing.JDialog();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        kode = new javax.swing.JTextField();
-        nama_akun = new javax.swing.JTextField();
+        id = new javax.swing.JTextField();
+        jurusan = new javax.swing.JTextField();
         simpan = new javax.swing.JButton();
+        jLabel4 = new javax.swing.JLabel();
+        kode_kelas = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         tableData = new javax.swing.JTable();
         tambah = new javax.swing.JButton();
@@ -75,9 +78,9 @@ public class FormAkun extends javax.swing.JInternalFrame {
         cari = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
 
-        jLabel2.setText("Kode");
+        jLabel2.setText("Id");
 
-        jLabel3.setText("Nama Akun");
+        jLabel3.setText("Kode Kelas");
 
         simpan.setText("Simpan");
         simpan.addActionListener(new java.awt.event.ActionListener() {
@@ -86,6 +89,8 @@ public class FormAkun extends javax.swing.JInternalFrame {
             }
         });
 
+        jLabel4.setText("Jurusan");
+
         javax.swing.GroupLayout dialogFormLayout = new javax.swing.GroupLayout(dialogForm.getContentPane());
         dialogForm.getContentPane().setLayout(dialogFormLayout);
         dialogFormLayout.setHorizontalGroup(
@@ -93,20 +98,20 @@ public class FormAkun extends javax.swing.JInternalFrame {
             .addGroup(dialogFormLayout.createSequentialGroup()
                 .addGroup(dialogFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(dialogFormLayout.createSequentialGroup()
+                        .addGap(165, 165, 165)
+                        .addComponent(simpan))
+                    .addGroup(dialogFormLayout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(dialogFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(dialogFormLayout.createSequentialGroup()
-                                .addComponent(jLabel2)
-                                .addGap(55, 55, 55)
-                                .addComponent(kode, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(dialogFormLayout.createSequentialGroup()
-                                .addComponent(jLabel3)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(nama_akun, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addGroup(dialogFormLayout.createSequentialGroup()
-                        .addGap(161, 161, 161)
-                        .addComponent(simpan)))
-                .addContainerGap(44, Short.MAX_VALUE))
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel4))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(dialogFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jurusan, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(id, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(kode_kelas, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(47, Short.MAX_VALUE))
         );
         dialogFormLayout.setVerticalGroup(
             dialogFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -114,21 +119,28 @@ public class FormAkun extends javax.swing.JInternalFrame {
                 .addGap(17, 17, 17)
                 .addGroup(dialogFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(kode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(id, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(dialogFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(nama_akun, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(kode_kelas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(simpan)
-                .addContainerGap(30, Short.MAX_VALUE))
+                .addGroup(dialogFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(dialogFormLayout.createSequentialGroup()
+                        .addComponent(jLabel4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 78, Short.MAX_VALUE)
+                        .addComponent(simpan))
+                    .addGroup(dialogFormLayout.createSequentialGroup()
+                        .addComponent(jurusan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
 
         setClosable(true);
         setDefaultCloseOperation(javax.swing.WindowConstants.HIDE_ON_CLOSE);
         setMaximizable(true);
         setResizable(true);
-        setTitle("FORM AKUN");
+        setTitle("FORM KELAS");
 
         tableData.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -207,16 +219,18 @@ public class FormAkun extends javax.swing.JInternalFrame {
                 .addGap(20, 20, 20))
         );
 
+        getAccessibleContext().setAccessibleName("FORM KELATITS");
+
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void tambahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tambahActionPerformed
         // TODO add your handling code here:
         mode="tambah";
-        kode.setText(null);
-        nama_akun.setText(null);
-        kode.setEnabled(true);
-        dialogForm.setTitle("Form Akun - Tambah");
+        id.setText(null);
+        jurusan.setText(null);
+        id.setEnabled(true);
+        dialogForm.setTitle("Form Kelas - Tambah");
         dialogForm.pack();
         dialogForm.setLocationRelativeTo(null);
         dialogForm.setVisible(true);
@@ -229,16 +243,18 @@ public class FormAkun extends javax.swing.JInternalFrame {
             mode="ubah";
             String id_pilih = (tableData.getModel().getValueAt(baris_index, 1).toString());
             try {
-                String sql="select * from akun where kode='"+id_pilih+"'";
+                String sql="select * from kelas where id='"+id_pilih+"'";
                 rs = kon.perintah.executeQuery(sql);
                 if (rs.next()) {
-                    String txtKode = rs.getString("kode");
-                    String txtNama_akun = rs.getString("nama_akun");
-                    kode.setText(txtKode);
-                    nama_akun.setText(txtNama_akun);
+                    String txtId = rs.getString("id");
+                    String txtKode_kelas = rs.getString("kode_kelas");
+                    String txtJurusan = rs.getString("jurusan");
+                    id.setText(txtId);
+                    kode_kelas.setText(txtKode_kelas);
+                    jurusan.setText(txtJurusan);
                     
-                    kode.setEnabled(false);
-                    dialogForm.setTitle("Form Akun - Ubah");
+                    id.setEnabled(false);
+                    dialogForm.setTitle("Form Kelas - Ubah");
                     dialogForm.pack();
                     dialogForm.setLocationRelativeTo(null);
                     dialogForm.setVisible(true);
@@ -259,7 +275,7 @@ public class FormAkun extends javax.swing.JInternalFrame {
             if(jwb == JOptionPane.YES_OPTION) {
                 String id_pilih = (tableData.getModel().getValueAt(baris_index, 1).toString());
                 try {
-                    String sql="delete from akun where kode='"+id_pilih+"'";
+                    String sql="delete from kelas where id='"+id_pilih+"'";
                     kon.perintah.execute(sql);
                     tampilData("");
                 } catch (Exception salahe) {
@@ -279,8 +295,9 @@ public class FormAkun extends javax.swing.JInternalFrame {
 
     private void simpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_simpanActionPerformed
         // TODO add your handling code here:
-        String txtKode = kode.getText();        
-        String txtNama_akun = nama_akun.getText();
+        String txtId = id.getText();
+        String txtKode_kelas = kode_kelas.getText();
+        String txtJurusan = jurusan.getText();
         String sql = "";
         
         LocalDateTime now = LocalDateTime.now();
@@ -288,17 +305,19 @@ public class FormAkun extends javax.swing.JInternalFrame {
         String waktu_sekarang = now.format(format);
         
         if (mode == "tambah") {
-            sql = "insert into akun values ("
-                + "'" + txtKode +"',"
-                + "'" + txtNama_akun +"',"
+            sql = "insert into kelas values ("
+                + "'" + txtId +"',"
+                + "'" + txtKode_kelas +"',"
+                + "'" + txtJurusan +"',"
                 + "'" + waktu_sekarang +"',"
                 + "'" + waktu_sekarang +"',"
                 + "null"
                 + ")";
         } else {
-            sql = "update akun set nama_akun='"+txtNama_akun+"',"
+            sql = "update kelas set kode_kelas='"+txtKode_kelas+"',"
+                + "jurusan='"+txtJurusan+"',"
                 + "updatedAt='"+waktu_sekarang+"'"
-                + "where kode='"+txtKode+"'";
+                + "where id='"+txtId+"'";
         }
         
         try {
@@ -316,12 +335,14 @@ public class FormAkun extends javax.swing.JInternalFrame {
     private javax.swing.JTextField cari;
     private javax.swing.JDialog dialogForm;
     private javax.swing.JButton hapus;
+    private javax.swing.JTextField id;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField kode;
-    private javax.swing.JTextField nama_akun;
+    private javax.swing.JTextField jurusan;
+    private javax.swing.JTextField kode_kelas;
     private javax.swing.JButton simpan;
     private javax.swing.JTable tableData;
     private javax.swing.JButton tambah;
