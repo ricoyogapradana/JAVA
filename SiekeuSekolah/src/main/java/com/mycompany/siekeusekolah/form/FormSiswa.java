@@ -29,15 +29,57 @@ public class FormSiswa extends javax.swing.JInternalFrame {
         initComponents();
         kon = new Koneksi(); //Buat Koneksi
         tampilData(""); //menampilkan Data
+        cbangkatan();
+        cbjurusan();
+        cbkelas();
+    }
+    
+    public void cbangkatan(){
+     try{
+         String sql="select * from angkatan";
+         rs = kon.perintah.executeQuery(sql);
+         cbangkatan.addItem("-Pilih Angkatan-");
+         while (rs.next()) {
+             cbangkatan.addItem(rs.getString("tahun"));
+         }
+        }catch(Exception e){
+            System.err.println("Gagal Tampil data: "+e.getMessage());
+       }
+    }
+    
+    public void cbjurusan(){
+     try{
+         String sql="select * from jurusan";
+         rs = kon.perintah.executeQuery(sql);
+         cbjurusan.addItem("-Pilih Jurusan-");
+         while (rs.next()) {
+             cbjurusan.addItem(rs.getString("id"));
+         }
+        }catch(Exception e){
+            System.err.println("Gagal Tampil data: "+e.getMessage());
+       }
+    }
+    
+    public void cbkelas(){
+     try{
+         String sql="select * from kelas";
+         rs = kon.perintah.executeQuery(sql);
+         cbkelas.addItem("-Pilih Kelas-");
+         while (rs.next()) {
+             cbkelas.addItem(rs.getString("kode_kelas"));
+         }
+        }catch(Exception e){
+            System.err.println("Gagal Tampil data: "+e.getMessage());
+       }
     }
     
     private void tampilData(String filter){
-        Object[] judulKolom = {"No","id","nis","Nama Siswa","Angkatan","Jurusan","Kelas","No HP"};
+        Object[] judulKolom = {"No","id","nis","Nama Siswa","Angkatan","Jurusan","Kelas","No HP","status"};
         DefaultTableModel modelAkun = new DefaultTableModel(null,judulKolom);
         tableData.setModel(modelAkun);
 
         try{
-            String sql="select * from siswa where nis like '%"+filter+"%' or nama like '%"+filter+"%'";
+            String sql="select siswa.id, nis, nama, angkatan, nama_jurusan, kelas, no_hp, status from siswa INNER JOIN jurusan on siswa.jurusan=jurusan.id where nis like '%"+filter+"%' or nama like '%"+filter+"%'";
             rs = kon.perintah.executeQuery(sql);
             int no = 0;
             while (rs.next()) {
@@ -46,10 +88,11 @@ public class FormSiswa extends javax.swing.JInternalFrame {
                 String txtNis =rs.getString("nis");
                 String txtNama_siswa =rs.getString("nama");
                 String txtAngkatan =rs.getString("angkatan");
-                String txtJurusan =rs.getString("jurusan");
+                String txtJurusan =rs.getString("nama_jurusan");
                 String txtKelas =rs.getString("kelas");
                 String txtNo_hp =rs.getString("no_hp");
-                String[] barisBaru = {Integer.toString(no), txtId, txtNis, txtNama_siswa, txtAngkatan, txtJurusan, txtKelas, txtNo_hp};
+                String txtStatus =rs.getString("status");
+                String[] barisBaru = {Integer.toString(no), txtId, txtNis, txtNama_siswa, txtAngkatan, txtJurusan, txtKelas, txtNo_hp, txtStatus};
                 modelAkun.addRow(barisBaru);
             }
         }catch(Exception salahe){
@@ -70,22 +113,22 @@ public class FormSiswa extends javax.swing.JInternalFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         id = new javax.swing.JTextField();
-        kelas = new javax.swing.JTextField();
         simpan = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
         nama_siswa = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
-        angkatan = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
-        jurusan = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
         no_hp = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
         password = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
-        status = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
         nis = new javax.swing.JTextField();
+        cbangkatan = new javax.swing.JComboBox<>();
+        cbkelas = new javax.swing.JComboBox<>();
+        cbjurusan = new javax.swing.JComboBox<>();
+        cbstatus = new javax.swing.JComboBox<>();
         jScrollPane1 = new javax.swing.JScrollPane();
         tableData = new javax.swing.JTable();
         tambah = new javax.swing.JButton();
@@ -119,53 +162,56 @@ public class FormSiswa extends javax.swing.JInternalFrame {
 
         jLabel10.setText("Id");
 
+        cbstatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "AKTIF", "TIDAK AKTIF" }));
+
         javax.swing.GroupLayout dialogFormLayout = new javax.swing.GroupLayout(dialogForm.getContentPane());
         dialogForm.getContentPane().setLayout(dialogFormLayout);
         dialogFormLayout.setHorizontalGroup(
             dialogFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(dialogFormLayout.createSequentialGroup()
-                .addGroup(dialogFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(dialogFormLayout.createSequentialGroup()
-                        .addGap(163, 163, 163)
-                        .addComponent(simpan))
+                .addGroup(dialogFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(dialogFormLayout.createSequentialGroup()
                         .addContainerGap()
-                        .addGroup(dialogFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel5)
-                            .addComponent(jLabel6)
-                            .addComponent(jLabel7)
-                            .addComponent(jLabel8)
-                            .addComponent(jLabel9)
-                            .addComponent(jLabel10))
                         .addGroup(dialogFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(dialogFormLayout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(dialogFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(status, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(password, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(no_hp, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(kelas, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(nama_siswa, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(angkatan, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jurusan, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, dialogFormLayout.createSequentialGroup()
+                                    .addComponent(jLabel3)
+                                    .addComponent(jLabel4)
+                                    .addComponent(jLabel5)
+                                    .addComponent(jLabel6)
+                                    .addComponent(jLabel7)
+                                    .addComponent(jLabel8)
+                                    .addComponent(jLabel9)
+                                    .addComponent(jLabel10))
+                                .addGroup(dialogFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, dialogFormLayout.createSequentialGroup()
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(id, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(144, 144, 144))
+                                    .addGroup(dialogFormLayout.createSequentialGroup()
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addGroup(dialogFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(password, javax.swing.GroupLayout.DEFAULT_SIZE, 257, Short.MAX_VALUE)
+                                            .addComponent(no_hp, javax.swing.GroupLayout.DEFAULT_SIZE, 257, Short.MAX_VALUE)
+                                            .addComponent(nama_siswa, javax.swing.GroupLayout.DEFAULT_SIZE, 257, Short.MAX_VALUE)
+                                            .addComponent(cbangkatan, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(cbkelas, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(cbjurusan, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(cbstatus, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
+                            .addGroup(dialogFormLayout.createSequentialGroup()
+                                .addComponent(jLabel2)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(id, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(nis, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(144, 144, 144))))
                     .addGroup(dialogFormLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(nis, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(144, 144, 144)))
+                        .addGap(166, 166, 166)
+                        .addComponent(simpan)))
                 .addContainerGap(65, Short.MAX_VALUE))
         );
         dialogFormLayout.setVerticalGroup(
             dialogFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, dialogFormLayout.createSequentialGroup()
-                .addContainerGap(40, Short.MAX_VALUE)
+                .addContainerGap(48, Short.MAX_VALUE)
                 .addGroup(dialogFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel10)
                     .addComponent(id, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -177,18 +223,18 @@ public class FormSiswa extends javax.swing.JInternalFrame {
                 .addGroup(dialogFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(nama_siswa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(dialogFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(dialogFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel4)
-                    .addComponent(angkatan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(dialogFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cbangkatan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(dialogFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel5)
-                    .addComponent(jurusan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(dialogFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(kelas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel6))
+                    .addComponent(cbjurusan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(dialogFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel6)
+                    .addComponent(cbkelas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(dialogFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
@@ -200,10 +246,10 @@ public class FormSiswa extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(dialogFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel9)
-                    .addComponent(status, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(cbstatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(14, 14, 14)
                 .addComponent(simpan)
-                .addContainerGap())
+                .addGap(20, 20, 20))
         );
 
         setClosable(true);
@@ -300,12 +346,12 @@ public class FormSiswa extends javax.swing.JInternalFrame {
         nis.setText(null);
         id.setText(null);
         nama_siswa.setText(null);
-        angkatan.setText(null);
-        jurusan.setText(null);
-        kelas.setText(null);
+        cbangkatan.setSelectedItem(null);
+        cbjurusan.setSelectedItem(null);
+        cbkelas.setSelectedItem(null);
         no_hp.setText(null);
         password.setText(null);
-        status.setText(null);
+        cbstatus.setSelectedItem(null);
         id.setEnabled(true);
         dialogForm.setTitle("Form Siswa - Tambah");
         dialogForm.pack();
@@ -335,12 +381,12 @@ public class FormSiswa extends javax.swing.JInternalFrame {
                     nis.setText(txtId);
                     id.setText(txtNis);
                     nama_siswa.setText(txtNama_siswa);
-                    angkatan.setText(txtAngkatan);
-                    jurusan.setText(txtJurusan);
-                    kelas.setText(txtKelas);
+                    cbangkatan.setSelectedItem(txtAngkatan);
+                    cbjurusan.setSelectedItem(txtJurusan);
+                    cbkelas.setSelectedItem(txtKelas);
                     no_hp.setText(txtNo_hp);
                     password.setText(txtPassword);
-                    status.setText(txtStatus);
+                    cbstatus.setSelectedItem(txtStatus);
                     
                     id.setEnabled(false);
                     dialogForm.setTitle("Form Siswa - Ubah");
@@ -387,12 +433,12 @@ public class FormSiswa extends javax.swing.JInternalFrame {
         String txtId = id.getText();
         String txtNis = nis.getText(); 
         String txtNama_siswa = nama_siswa.getText(); 
-        String txtAngkatan = angkatan.getText(); 
-        String txtJurusan = jurusan.getText(); 
-        String txtKelas = kelas.getText(); 
+        String txtAngkatan = String.valueOf(cbangkatan.getSelectedItem());
+        String txtJurusan =  String.valueOf(cbjurusan.getSelectedItem());
+        String txtKelas =  String.valueOf(cbkelas.getSelectedItem());
         String txtNo_hp = no_hp.getText(); 
         String txtPassword = password.getText(); 
-        String txtStatus = status.getText(); 
+        String txtStatus = String.valueOf(cbstatus.getSelectedItem()); 
         String sql = "";
         
         LocalDateTime now = LocalDateTime.now();
@@ -440,8 +486,11 @@ public class FormSiswa extends javax.swing.JInternalFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextField angkatan;
     private javax.swing.JTextField cari;
+    private javax.swing.JComboBox<String> cbangkatan;
+    private javax.swing.JComboBox<String> cbjurusan;
+    private javax.swing.JComboBox<String> cbkelas;
+    private javax.swing.JComboBox<String> cbstatus;
     private javax.swing.JDialog dialogForm;
     private javax.swing.JButton hapus;
     private javax.swing.JTextField id;
@@ -456,14 +505,11 @@ public class FormSiswa extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField jurusan;
-    private javax.swing.JTextField kelas;
     private javax.swing.JTextField nama_siswa;
     private javax.swing.JTextField nis;
     private javax.swing.JTextField no_hp;
     private javax.swing.JTextField password;
     private javax.swing.JButton simpan;
-    private javax.swing.JTextField status;
     private javax.swing.JTable tableData;
     private javax.swing.JButton tambah;
     private javax.swing.JButton ubah;

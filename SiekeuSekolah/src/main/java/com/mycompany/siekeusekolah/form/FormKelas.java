@@ -29,6 +29,7 @@ public class FormKelas extends javax.swing.JInternalFrame {
         initComponents();
         kon = new Koneksi(); //Buat Koneksi
         tampilData(""); //menampilkan Data
+        cbjurusan();
     }
     
     private void tampilData(String filter){
@@ -37,14 +38,14 @@ public class FormKelas extends javax.swing.JInternalFrame {
         tableData.setModel(modelAkun);
 
         try{
-            String sql="select * from kelas where kode_kelas like '%"+filter+"%' or jurusan like '%"+filter+"%'";
+            String sql="select kelas.id, kode_kelas, jurusan, nama_jurusan from kelas INNER JOIN jurusan on kelas.jurusan=jurusan.id  where kode_kelas like '%"+filter+"%' or jurusan like '%"+filter+"%'";
             rs = kon.perintah.executeQuery(sql);
             int no = 0;
             while (rs.next()) {
                 no++;
                 String txtId =rs.getString("id");
                 String txtKode_kelas =rs.getString("kode_kelas");
-                String txtNama_jurusan =rs.getString("jurusan");
+                String txtNama_jurusan =rs.getString("nama_jurusan");
                 String[] barisBaru = {Integer.toString(no), txtId, txtKode_kelas, txtNama_jurusan};
                 modelAkun.addRow(barisBaru);
             }
@@ -52,6 +53,32 @@ public class FormKelas extends javax.swing.JInternalFrame {
             System.err.println("Gagal Tampil data: "+salahe.getMessage());
         }
     }
+    
+    public void cbjurusan(){
+     try{
+         String sql="select * from jurusan";
+         rs = kon.perintah.executeQuery(sql);
+         cbjurusan.addItem("-Pilih Jurusan-");
+         while (rs.next()) {
+             cbjurusan.addItem(rs.getString("id"));
+         }
+        }catch(Exception e){
+            System.err.println("Gagal Tampil data: "+e.getMessage());
+       }
+    }
+    
+     public void tampilJurusan(String txtJurusan){
+      try {
+            String sql="select * from jurusan where id='"+txtJurusan+"'";
+            rs = kon.perintah.executeQuery(sql);
+            if (rs.next()) {
+                String jurusan1 = rs.getString("nama_jurusan");
+                jurusan.setText(jurusan1);
+            }
+        } catch (Exception salahe) {
+            System.err.println("Gagal Tampil data: "+salahe.getMessage());
+        }
+     }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -70,6 +97,8 @@ public class FormKelas extends javax.swing.JInternalFrame {
         simpan = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
         kode_kelas = new javax.swing.JTextField();
+        cbjurusan = new javax.swing.JComboBox<>();
+        jLabel5 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tableData = new javax.swing.JTable();
         tambah = new javax.swing.JButton();
@@ -89,7 +118,15 @@ public class FormKelas extends javax.swing.JInternalFrame {
             }
         });
 
-        jLabel4.setText("Jurusan");
+        jLabel4.setText("ID Jurusan");
+
+        cbjurusan.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                cbjurusanMouseClicked(evt);
+            }
+        });
+
+        jLabel5.setText("Jurusan");
 
         javax.swing.GroupLayout dialogFormLayout = new javax.swing.GroupLayout(dialogForm.getContentPane());
         dialogForm.getContentPane().setLayout(dialogFormLayout);
@@ -98,20 +135,22 @@ public class FormKelas extends javax.swing.JInternalFrame {
             .addGroup(dialogFormLayout.createSequentialGroup()
                 .addGroup(dialogFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(dialogFormLayout.createSequentialGroup()
-                        .addGap(165, 165, 165)
-                        .addComponent(simpan))
-                    .addGroup(dialogFormLayout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(dialogFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel3)
                             .addComponent(jLabel2)
-                            .addComponent(jLabel4))
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel5))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(dialogFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jurusan, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(id, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(kode_kelas, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(47, Short.MAX_VALUE))
+                            .addComponent(kode_kelas, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(cbjurusan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jurusan, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(dialogFormLayout.createSequentialGroup()
+                        .addGap(155, 155, 155)
+                        .addComponent(simpan)))
+                .addContainerGap(27, Short.MAX_VALUE))
         );
         dialogFormLayout.setVerticalGroup(
             dialogFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -125,14 +164,15 @@ public class FormKelas extends javax.swing.JInternalFrame {
                     .addComponent(jLabel3)
                     .addComponent(kode_kelas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(dialogFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(dialogFormLayout.createSequentialGroup()
-                        .addComponent(jLabel4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 78, Short.MAX_VALUE)
-                        .addComponent(simpan))
-                    .addGroup(dialogFormLayout.createSequentialGroup()
-                        .addComponent(jurusan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addGroup(dialogFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(cbjurusan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(dialogFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jurusan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(simpan)
                 .addContainerGap())
         );
 
@@ -228,7 +268,9 @@ public class FormKelas extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         mode="tambah";
         id.setText(null);
-        jurusan.setText(null);
+        cbjurusan.setSelectedItem(null);
+        kode_kelas.setText(null);
+        jurusan.setEnabled(false);
         id.setEnabled(true);
         dialogForm.setTitle("Form Kelas - Tambah");
         dialogForm.pack();
@@ -249,11 +291,14 @@ public class FormKelas extends javax.swing.JInternalFrame {
                     String txtId = rs.getString("id");
                     String txtKode_kelas = rs.getString("kode_kelas");
                     String txtJurusan = rs.getString("jurusan");
+                    cbjurusan.setSelectedItem(rs.getString("jurusan"));
                     id.setText(txtId);
                     kode_kelas.setText(txtKode_kelas);
-                    jurusan.setText(txtJurusan);
+                    tampilJurusan(txtJurusan);
                     
+                    cbjurusan.setEnabled(true);
                     id.setEnabled(false);
+                    jurusan.setEnabled(false);
                     dialogForm.setTitle("Form Kelas - Ubah");
                     dialogForm.pack();
                     dialogForm.setLocationRelativeTo(null);
@@ -297,7 +342,7 @@ public class FormKelas extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         String txtId = id.getText();
         String txtKode_kelas = kode_kelas.getText();
-        String txtJurusan = jurusan.getText();
+        String txtJurusan = String.valueOf(cbjurusan.getSelectedItem());
         String sql = "";
         
         LocalDateTime now = LocalDateTime.now();
@@ -330,9 +375,15 @@ public class FormKelas extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_simpanActionPerformed
 
+    private void cbjurusanMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cbjurusanMouseClicked
+        // TODO add your handling code here:
+        tampilJurusan(cbjurusan.getSelectedItem().toString()); 
+    }//GEN-LAST:event_cbjurusanMouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField cari;
+    private javax.swing.JComboBox<String> cbjurusan;
     private javax.swing.JDialog dialogForm;
     private javax.swing.JButton hapus;
     private javax.swing.JTextField id;
@@ -340,6 +391,7 @@ public class FormKelas extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField jurusan;
     private javax.swing.JTextField kode_kelas;
