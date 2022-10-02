@@ -18,6 +18,9 @@ public class FormUtama extends javax.swing.JFrame {
     FormAngkatan formAngkatan = new FormAngkatan();
     FormSiswa formSiswa = new FormSiswa();
     FormKelas formKelas = new FormKelas();
+    FormBiayaTetap formBiayaTetap = new FormBiayaTetap();
+    FormBiayaPmb formBiayaPmb = new FormBiayaPmb();
+    FormBiayaLain formBiayaLain = new FormBiayaLain();
     /**
      * Creates new form FormUtama
      */
@@ -32,6 +35,9 @@ public class FormUtama extends javax.swing.JFrame {
         desktopPane.add(formAngkatan);
         desktopPane.add(formSiswa);
         desktopPane.add(formKelas);
+        desktopPane.add(formBiayaTetap);
+        desktopPane.add(formBiayaPmb);
+        desktopPane.add(formBiayaLain);
     }
 
     /**
@@ -57,8 +63,9 @@ public class FormUtama extends javax.swing.JFrame {
         KelasMenuItem = new javax.swing.JMenuItem();
         SiswaMenuItem = new javax.swing.JMenuItem();
         helpMenu = new javax.swing.JMenu();
-        contentMenuItem = new javax.swing.JMenuItem();
-        aboutMenuItem = new javax.swing.JMenuItem();
+        BiayaTetapMenuItem = new javax.swing.JMenuItem();
+        BiayaPmbMenuItem = new javax.swing.JMenuItem();
+        BiayaLainMenuItem = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -140,15 +147,34 @@ public class FormUtama extends javax.swing.JFrame {
         menuBar.add(masterMenu);
 
         helpMenu.setMnemonic('h');
-        helpMenu.setText("Help");
+        helpMenu.setText("Biaya");
 
-        contentMenuItem.setMnemonic('c');
-        contentMenuItem.setText("Contents");
-        helpMenu.add(contentMenuItem);
+        BiayaTetapMenuItem.setMnemonic('c');
+        BiayaTetapMenuItem.setText("Biaya Tetap");
+        BiayaTetapMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BiayaTetapMenuItemActionPerformed(evt);
+            }
+        });
+        helpMenu.add(BiayaTetapMenuItem);
 
-        aboutMenuItem.setMnemonic('a');
-        aboutMenuItem.setText("About");
-        helpMenu.add(aboutMenuItem);
+        BiayaPmbMenuItem.setMnemonic('a');
+        BiayaPmbMenuItem.setText("Biaya PMB");
+        BiayaPmbMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BiayaPmbMenuItemActionPerformed(evt);
+            }
+        });
+        helpMenu.add(BiayaPmbMenuItem);
+
+        BiayaLainMenuItem.setMnemonic('a');
+        BiayaLainMenuItem.setText("Biaya Lain");
+        BiayaLainMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BiayaLainMenuItemActionPerformed(evt);
+            }
+        });
+        helpMenu.add(BiayaLainMenuItem);
 
         menuBar.add(helpMenu);
 
@@ -197,6 +223,21 @@ public class FormUtama extends javax.swing.JFrame {
         formKelas.setVisible(true);
     }//GEN-LAST:event_KelasMenuItemActionPerformed
 
+    private void BiayaTetapMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BiayaTetapMenuItemActionPerformed
+        // TODO add your handling code here:
+        formBiayaTetap.setVisible(true);
+    }//GEN-LAST:event_BiayaTetapMenuItemActionPerformed
+
+    private void BiayaPmbMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BiayaPmbMenuItemActionPerformed
+        // TODO add your handling code here:
+        formBiayaPmb.setVisible(true);
+    }//GEN-LAST:event_BiayaPmbMenuItemActionPerformed
+
+    private void BiayaLainMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BiayaLainMenuItemActionPerformed
+        // TODO add your handling code here:
+        formBiayaLain.setVisible(true);
+    }//GEN-LAST:event_BiayaLainMenuItemActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -235,11 +276,12 @@ public class FormUtama extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem AkunMenuItem;
     private javax.swing.JMenuItem AngkatanMenuItem;
+    private javax.swing.JMenuItem BiayaLainMenuItem;
+    private javax.swing.JMenuItem BiayaPmbMenuItem;
+    private javax.swing.JMenuItem BiayaTetapMenuItem;
     private javax.swing.JMenuItem JurusanMenuItem;
     private javax.swing.JMenuItem KelasMenuItem;
     private javax.swing.JMenuItem SiswaMenuItem;
-    private javax.swing.JMenuItem aboutMenuItem;
-    private javax.swing.JMenuItem contentMenuItem;
     private javax.swing.JDesktopPane desktopPane;
     private javax.swing.JMenuItem exitMenuItem;
     private javax.swing.JMenu fileMenu;
