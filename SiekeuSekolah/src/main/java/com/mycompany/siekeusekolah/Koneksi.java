@@ -24,7 +24,7 @@ public class Koneksi {
             Class.forName("com.mysql.cj.jdbc.Driver");
             String url = "jdbc:mysql://localhost/javadb";
             String user = "root";
-            String pass = "ricoyoga12";
+            String pass = "";
             
             konekDB = DriverManager.getConnection(url, user, pass);
             perintah = konekDB.createStatement();
