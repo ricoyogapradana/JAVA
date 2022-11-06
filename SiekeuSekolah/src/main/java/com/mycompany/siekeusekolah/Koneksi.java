@@ -22,7 +22,7 @@ public class Koneksi {
     public Koneksi() {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            String url = "jdbc:mysql://localhost/javadb";
+            String url = "jdbc:mysql://localhost/javadb2";
             String user = "root";
             String pass = "";
             
